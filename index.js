@@ -15,6 +15,6 @@ function run(day, part) {
 	console.log('day ' + day + ', part ' + part + ': ' + solution(input));
 }
 
-run(1, 2);
+run(2, 2);
 
 process.exit();
