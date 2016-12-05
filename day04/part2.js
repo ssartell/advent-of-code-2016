@@ -10,10 +10,9 @@ var toRoom = (name, sectorId) => ({
         sectorId: sectorId,
     });
 
-var checksumsMatch = R.converge(R.equals, [R.prop('realChecksum'), R.prop('checksum')]);
 var readLine = R.pipe(R.trim, R.match(/((?:[a-z]*-?)*)-(\d*)\[([a-z]*)\]/), R.tail, R.adjust(parseInt, 1), R.apply(toRoom));
 var parseInput = R.pipe(R.trim, R.split('\n'), R.map(readLine));
 var matchesName = R.pipe(R.prop('name'), R.equals('northpole object storage'));
-var solution = R.pipe(parseInput, R.filter(checksumsMatch), R.find(matchesName), R.prop('sectorId'));
+var solution = R.pipe(parseInput, R.find(matchesName), R.prop('sectorId'));
 
 module.exports = solution;

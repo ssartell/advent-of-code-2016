@@ -27,10 +27,10 @@ var old = {};
 var isNotRepeat = (p, m) => {
     var key = p.x + '_' + p.y;
     return !old[key] && (old[key] = p);
-}
+};
 
-var griddist = (p) => Math.abs(p.x) + Math.abs(p.y);
+var gridDist = (p) => Math.abs(p.x) + Math.abs(p.y);
 
-var solution = R.pipe(parseInput, R.reduceWhile(isNotRepeat, evalMove, { x:0, y:0, dir:0 }), griddist);
+var solution = R.pipe(parseInput, R.reduceWhile(isNotRepeat, evalMove, { x:0, y:0, dir:0 }), gridDist);
 
 module.exports = solution;

@@ -21,8 +21,8 @@ var evalMove = (p, m) => {
     moves[newdir](newPosition, m);
     return newPosition;
 };
-var griddist = p => Math.abs(p.x) + Math.abs(p.y);
+var gridDist = p => Math.abs(p.x) + Math.abs(p.y);
 
-var solution = R.pipe(parseInput, R.reduce(evalMove, { x:0, y:0, dir:0 }), griddist);
+var solution = R.pipe(parseInput, R.reduce(evalMove, { x:0, y:0, dir:0 }), gridDist);
 
 module.exports = solution;
