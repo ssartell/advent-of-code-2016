@@ -1,8 +1,6 @@
 var R = require('ramda');
 
-var getCharCode = x => x.charCodeAt(0);
-var toChar = String.fromCharCode;
-var rotate = R.curry((sectorId, x) => x === '-' ? ' ' : toChar(((getCharCode(x) - 97 + sectorId) % 26) + 97));
+var rotate = R.curry((sectorId, x) => x === '-' ? ' ' : String.fromCharCode(((x.charCodeAt(0) - 97 + sectorId) % 26) + 97));
 var cipher = (code, sectorId) => R.pipe(R.map(rotate(sectorId)), R.join(''))(code);
 
 var toRoom = (name, sectorId) => ({
