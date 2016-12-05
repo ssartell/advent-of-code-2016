@@ -1,10 +1,5 @@
 var R = require('ramda');
 
-var trace = x => {
-    console.log(x);
-    return x;
-};
-
 var getCharCode = x => x.charCodeAt(0);
 var toChar = String.fromCharCode;
 
@@ -39,7 +34,7 @@ var checksumMatches = (roomCode) => {
 
 var withoutDashes = R.replace(/-/g, '');
 var readLine = R.compose(R.tail, R.match(/((?:[a-z]*-)*)(\d*)\[([a-z]*)\]/), R.trim)
-var parseInput = R.compose(trace, R.filter(checksumMatches), R.map(toRoomCode), R.map(readLine), R.split('\n'), R.trim);
+var parseInput = R.compose(R.filter(checksumMatches), R.map(toRoomCode), R.map(readLine), R.split('\n'), R.trim);
 
 var solution = parseInput;
 

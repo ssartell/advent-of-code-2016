@@ -1,10 +1,5 @@
 var R = require('ramda');
 
-var trace = x => {
-    console.log(x);
-    return x;
-};
-
 var getCheckSum = R.compose(R.join(''), R.take(5), R.map(R.head), R.unnest, R.reverse, R.values, R.groupBy(R.prop('length')), R.sortBy(R.head), R.values, R.groupBy(R.identity));
 
 var toRoomCode = (values) => ({
