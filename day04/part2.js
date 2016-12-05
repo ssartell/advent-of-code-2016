@@ -2,40 +2,23 @@ var R = require('ramda');
 
 var getCharCode = x => x.charCodeAt(0);
 var toChar = String.fromCharCode;
-
-var getCheckSum = R.compose(R.join(''), R.take(5), R.map(R.head), R.unnest, R.reverse, R.values, R.groupBy(R.prop('length')), R.sortBy(R.head), R.values, R.groupBy(R.identity));
-
 var rotate = R.curry((sectorId, x) => {
-    if (x === '-') {
-        return ' ';
-    } else {
-        return toChar(((getCharCode(x) - 97 + sectorId) % 26) + 97);
-    }
+    return x === '-' ? ' ' : toChar(((getCharCode(x) - 97 + sectorId) % 26) + 97);
 });
 
 var cipher = (code, sectorId) => {
     return R.join('', R.map(rotate(sectorId), code));
 };
 
-var toRoomCode = (values) => {
-    var sectorId = parseInt(values[1]);
-    return {
-        code: values[0],
-        roomName: cipher(values[0], sectorId),
-        realChecksum: getCheckSum(withoutDashes(values[0])),
-        sectorId: sectorId,
-        checksum: values[2]
-    };
-};
+var toRoomCode = (values) => ({
+        roomName: cipher(values[0], parseInt(values[1])),
+        sectorId: parseInt(values[1]),
+    });
 
-var checksumMatches = (roomCode) => {
-    return roomCode.realChecksum == roomCode.checksum;
-};
-
-var withoutDashes = R.replace(/-/g, '');
-var readLine = R.compose(R.tail, R.match(/((?:[a-z]*-)*)(\d*)\[([a-z]*)\]/), R.trim)
-var parseInput = R.compose(R.filter(checksumMatches), R.map(toRoomCode), R.map(readLine), R.split('\n'), R.trim);
-
-var solution = parseInput;
+var checksumsMatch = R.converge(R.equals, [R.prop('realChecksum'), R.prop('checksum')]);
+var readLine = R.pipe(R.trim, R.match(/((?:[a-z]*-?)*)-(\d*)\[([a-z]*)\]/), R.tail, toRoomCode);
+var parseInput = R.pipe(R.trim, R.split('\n'), R.map(readLine));
+var matchesName = R.pipe(R.prop('roomName'), R.equals('northpole object storage'));
+var solution = R.pipe(parseInput, R.filter(checksumsMatch), R.find(matchesName), R.prop('sectorId'));
 
 module.exports = solution;
