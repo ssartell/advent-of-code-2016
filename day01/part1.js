@@ -1,29 +1,28 @@
 var R = require('ramda');
 
-var direction = 0;
 var rotate = {
     R: -1,
     L: 1
 };
 var moves = [
-    (p, m) => { p.y += m.distance; }, // north
-    (p, m) => { p.x -= m.distance; }, // west
-    (p, m) => { p.y -= m.distance; }, // south
-    (p, m) => { p.x += m.distance; }, // eash
+    (p, m) => { p.y += m.dist; }, // north
+    (p, m) => { p.x -= m.dist; }, // west
+    (p, m) => { p.y -= m.dist; }, // south
+    (p, m) => { p.x += m.dist; }, // eash
 ];
-var mod = (n, m) => ((n % m) + m) % m;
-var toMove = x => ({ direction: x[0], distance: parseInt(x.substring(1)) });
-var parseInput = R.compose(R.map(toMove), R.map(R.trim), R.split(','), R.trim);
 
-var evalMove = (position, move) => {
-    var newDirection = mod(position.d + rotate[move.direction], 4);
-    var newPosition = { x: position.x, y: position.y, d: newDirection };
-    moves[newDirection](newPosition, move);
+var readLine = R.pipe(R.trim, R.splitAt(1), R.adjust(parseInt, 1), R.zipObj(['dir', 'dist']));
+var parseInput = R.pipe(R.trim, R.split(','), R.map(readLine));
+
+var mod = (n, m) => ((n % m) + m) % m;
+var evalMove = (p, m) => {
+    var newdir = mod(p.dir + rotate[m.dir], 4);
+    var newPosition = { x: p.x, y: p.y, dir: newdir };
+    moves[newdir](newPosition, m);
     return newPosition;
 };
+var griddist = p => Math.abs(p.x) + Math.abs(p.y);
 
-var gridDistance = (position) => Math.abs(position.x) + Math.abs(position.y);
-
-var solution = R.compose(gridDistance, R.reduce(evalMove, { x: 0, y: 0, d: 0 }), parseInput);
+var solution = R.pipe(parseInput, R.reduce(evalMove, { x:0, y:0, dir:0 }), griddist);
 
 module.exports = solution;
