@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "md5": "^2.2.1",
     "ramda": "^0.22.1"
   }
 }
