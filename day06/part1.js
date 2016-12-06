@@ -1,7 +1,7 @@
 var R = require('ramda');
 
-var parseInput = R.pipe(R.split('\n'), R.map(R.trim));
-var getMessage = R.pipe(R.transpose, R.groupBy(R.identity), R.values, R.sortBy(R.prop('length')), R.map(R.tail), R.join(''));
+var parseInput = R.pipe(R.trim, R.split('\n'), R.map(R.pipe(R.trim, R.split(''))));
+var getMessage = R.pipe(R.transpose, R.map(R.pipe(R.countBy(R.identity), R.toPairs, R.sortBy(R.last), R.last, R.head)), R.join(''));
 
 var solution = R.pipe(parseInput, getMessage);
 
