@@ -12,7 +12,6 @@ var solution = input => {
             var span = parseInt(input.substring(i + 1, x));
             var times = parseInt(input.substring(x + 1, close));
             var markerLength = close - i + 1;
-
             var decompressedSpan = solution(input.substr(i + markerLength, span));
 
             total += decompressedSpan * times;
