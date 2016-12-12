@@ -90,12 +90,12 @@ var queue = [];
 var tryMoves = initialFloors => {
     initialFloors[0] = R.concat(initialFloors[0], ['eg', 'em', 'dg', 'dm']); 
 
-    var state = {
+    var initialState = {
         steps: 0,
         elev: 0,
         floors: initialFloors
     };
-    queue.push(state);
+    queue.push(initialState);
 
     var state;
     while(state = queue.shift()) {

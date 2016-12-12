@@ -80,12 +80,12 @@ var oldStates = {};
 var oldSteps = {};
 var queue = [];
 var tryMoves = initialFloors => {
-    var state = {
+    var initialState = {
         steps: 0,
         elev: 0,
         floors: initialFloors
     };
-    queue.push(state);
+    queue.push(initialState);
 
     var state;
     while(state = queue.shift()) {
