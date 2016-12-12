@@ -1,9 +1,5 @@
 var R = require('ramda');
 
-var trace = x => {
-    return x;
-}
-
 var directions = [-1, 1];
 var bottomFloor = 0;
 var topFloor = 3;
@@ -104,20 +100,19 @@ var tryMoves = initialFloors => {
         var fromFloor = state.floors[fromElev];
 
         var options;
-
         if (fromFloor.length > 1) {
             options = R.concat(nChooseK(fromFloor, 2), nChooseK(fromFloor, 1));
         } else {
-            options = nChooseK(fromFloor, 1);
+            options = [fromFloor];
         }
-        
         
         for(var direction of directions) {
             var toElev = state.elev + direction;
             if (toElev < bottomFloor || topFloor < toElev) continue;
+            
+            var toFloor = state.floors[toElev];
 
             for(var option of options) {
-                var toFloor = state.floors[toElev];
                 var updatedToFloor = R.concat(toFloor, option);
                 if (!floorIsValid(updatedToFloor)) continue;
 

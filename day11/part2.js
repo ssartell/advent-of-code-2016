@@ -1,9 +1,5 @@
 var R = require('ramda');
 
-var trace = x => {
-    return x;
-}
-
 var directions = [-1, 1];
 var bottomFloor = 0;
 var topFloor = 3;
@@ -42,28 +38,19 @@ var nChooseK = (set, n) => {
 
 var isMicrochip = R.pipe(R.last, R.equals('m'));
 var isGenerator = R.pipe(R.last, R.equals('g'));
-
-var validFloors = {};
 var floorIsValid = floor => {
-    var floorKey = toString(floor);
-    if (floorIsValid[floorKey]) 
-        return floorIsValid[floorKey];
-
     var generators = R.filter(isGenerator, floor);
     if (generators.length === 0)  {
-        floorIsValid[floorKey] = true;
         return true;
     }
     var microchips = R.filter(isMicrochip, floor);
     for(var microchip of microchips) {
         var type = microchip[0];
         if (!R.contains(type + 'g', generators)) {
-            floorIsValid[floorKey] = false;
             return false;
         }
     }
 
-    floorIsValid[floorKey] = true;
     return true;
 };
 
@@ -123,20 +110,19 @@ var tryMoves = initialFloors => {
         var fromFloor = state.floors[fromElev];
 
         var options;
-
         if (fromFloor.length > 1) {
             options = R.concat(nChooseK(fromFloor, 2), nChooseK(fromFloor, 1));
         } else {
-            options = nChooseK(fromFloor, 1);
+            options = [fromFloor];
         }
-        
         
         for(var direction of directions) {
             var toElev = state.elev + direction;
             if (toElev < bottomFloor || topFloor < toElev) continue;
 
+            var toFloor = state.floors[toElev];
+
             for(var option of options) {
-                var toFloor = state.floors[toElev];
                 var updatedToFloor = R.concat(toFloor, option);
                 if (!floorIsValid(updatedToFloor)) continue;
 
