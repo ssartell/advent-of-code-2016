@@ -80,6 +80,23 @@ var createNewState = (oldState, fromElev, toElev, fromFloor, toFloor) => {
 
 var isFinal = state => state.floors[0].length === 0 && state.floors[1].length === 0 && state.floors[2].length === 0;
 
+var byFirstValue = R.comparator((a,b) => a[0] < b[0]);
+var bySecondValue = R.comparator((a,b) => a[1] < b[1]);
+var toPairsString = floors => {
+    var sets = {};
+    var i = 0;
+    for(var floor of floors) {
+        for(var part of floor) {
+            var type = part[0];
+            if (!sets[type])
+                sets[type]= {}
+            sets[type][part[1]] = i;
+        }
+        i++;
+    }
+    return toString(R.sort(R.either(byFirstValue, bySecondValue), R.map(R.values, R.values(sets))));
+}
+
 var oldStates = {};
 var oldSteps = {};
 var queue = [];
@@ -129,7 +146,7 @@ var tryMoves = initialFloors => {
                 var newState = createNewState(state, fromElev, toElev, updatedFromFloor, updatedToFloor);
                 if (isFinal(newState)) return newState.steps;
 
-                var newFloorState = toString(newState.floors) + toElev;
+                var newFloorState = toPairsString(newState.floors) + toElev;
                 if (!oldStates[newFloorState]) {
                     oldStates[newFloorState] = true;
                     queue.push(newState);
@@ -138,7 +155,6 @@ var tryMoves = initialFloors => {
         }
     }
     
-    // console.log(R.sortBy(R.identity, R.keys(oldStates)));
     return Infinity;
 };
 
