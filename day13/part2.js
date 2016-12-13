@@ -42,8 +42,6 @@ var fewestSteps = R.curry((x, y, favNum) => {
                 queue.push(createPos(pos.x, pos.y - 1, pos.steps + 1));
                 queue.push(createPos(pos.x, pos.y + 1, pos.steps + 1));
             }
-        } else if (maze[pos.x][pos.y] > -1) { // old position
-            maze[pos.x][pos.y] = R.min(maze[pos.x][pos.y], pos.steps);
         }
     }
 
