@@ -30,7 +30,7 @@ var fewestSteps = R.curry((x, y, favNum) => {
         if (pos.x < 0 || pos.y < 0) continue; // out of bounds
         if (maze[pos.x] === undefined) maze[pos.x] = [];
         
-        if (maze[pos.x][pos.y] === undefined) {
+        if (maze[pos.x][pos.y] === undefined) { // new position
             if (isWall(pos.x, pos.y, favNum)) {
                 maze[pos.x][pos.y] = -1;
             } else {
@@ -42,7 +42,7 @@ var fewestSteps = R.curry((x, y, favNum) => {
                 queue.push(createPos(pos.x, pos.y - 1, pos.steps + 1));
                 queue.push(createPos(pos.x, pos.y + 1, pos.steps + 1));
             }
-        } else if (maze[pos.x][pos.y] > -1) {
+        } else if (maze[pos.x][pos.y] > -1) { // old position
             maze[pos.x][pos.y] = R.min(maze[pos.x][pos.y], pos.steps);
         }
     }
