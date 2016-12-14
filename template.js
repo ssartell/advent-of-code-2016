@@ -1,5 +1,7 @@
 var R = require('ramda');
 
-var solution = input => null;
+var parseInput = R.pipe(R.trim);
+
+var solution = R.pipe(parseInput);
 
 module.exports = solution;
