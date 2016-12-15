@@ -16,7 +16,7 @@ function run(day, part) {
 }
 
 var day = 15;
-// run(day, 1);
-run(day, 2);
+run(day, 1);
+// run(day, 2);
 
 process.exit();
