@@ -131,7 +131,6 @@ var tryMoves = initialFloors => {
         }
     }
     
-    // console.log(R.sortBy(R.identity, R.keys(oldStates)));
     return Infinity;
 };
 
