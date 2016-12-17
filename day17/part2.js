@@ -6,7 +6,7 @@ var isOpen = x => x === 'b' || x === 'c' || x === 'd' || x === 'e' || x === 'f';
 var queue = [];
 var works = [];
 var exec = input => {
-    var start = { x: 0, y: 0, steps: 0, seq: '' };
+    var start = { x: 0, y: 0, seq: '' };
     queue.push(start);
 
     var pos;
@@ -20,10 +20,10 @@ var exec = input => {
 
         var hash = md5(input + pos.seq);
         
-        if (isOpen(hash[0])) queue.push({ x: pos.x, y: pos.y - 1, steps: pos.steps + 1, seq: pos.seq + 'U' });
-        if (isOpen(hash[1])) queue.push({ x: pos.x, y: pos.y + 1, steps: pos.steps + 1, seq: pos.seq + 'D' });
-        if (isOpen(hash[2])) queue.push({ x: pos.x - 1, y: pos.y, steps: pos.steps + 1, seq: pos.seq + 'L' });
-        if (isOpen(hash[3])) queue.push({ x: pos.x + 1, y: pos.y, steps: pos.steps + 1, seq: pos.seq + 'R' });
+        if (isOpen(hash[0])) queue.push({ x: pos.x, y: pos.y - 1, seq: pos.seq + 'U' });
+        if (isOpen(hash[1])) queue.push({ x: pos.x, y: pos.y + 1, seq: pos.seq + 'D' });
+        if (isOpen(hash[2])) queue.push({ x: pos.x - 1, y: pos.y, seq: pos.seq + 'L' });
+        if (isOpen(hash[3])) queue.push({ x: pos.x + 1, y: pos.y, seq: pos.seq + 'R' });
     }
 
     return R.last(works).seq.length;
