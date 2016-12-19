@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fastqueuejs": "^1.0.2",
     "js-combinatorics": "^0.5.2",
     "md5": "^2.2.1",
     "ramda": "^0.22.1"
