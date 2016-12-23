@@ -1,7 +1,7 @@
 var R = require('ramda');
 
 var registers = {
-    a: 7,
+    a: 12,
     b: 0,
     c: 0,
     d: 0
