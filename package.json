@@ -9,12 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ansi-escape-sequences": "^3.0.0",
+    "ansi": "^0.3.1",
     "fastqueuejs": "^1.0.2",
     "js-combinatorics": "^0.5.2",
     "md5": "^2.2.1",
     "nanotimer": "^0.3.14",
     "node-stopwatch": "0.0.1",
+    "priorityqueuejs": "^1.0.0",
     "ramda": "^0.22.1"
   }
 }
