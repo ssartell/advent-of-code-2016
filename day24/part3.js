@@ -25,6 +25,8 @@ var findNumbers = maze => {
 }
 
 var cityBlockDist = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+var distanceToWall = (maze, a) => Math.min(Math.min(maze.length - a.x, a.x), Math.min(maze[0].length - a.y, a.y));
+var compare = R.curry((f, a, b) => f(b) - f(a));
 
 var shortestPath = maze => {
     var numbers = R.range(0, 8);
@@ -41,11 +43,13 @@ var shortestPath = maze => {
         var endNumber = pair[1];
         var end = numberLocs[endNumber];
 
-        var aStar = (a, b) => (b.steps + cityBlockDist(b, end)) - (a.steps + cityBlockDist(a, end));
-        var bfs = (a, b) => b.steps - a.steps;
+        var aStar = a => a.steps + cityBlockDist(a, end);
+        var bfs = a => a.steps;
+        var fastAndStraight = a => a.steps + Math.pow(cityBlockDist(a, end), 3);
+        var edge = a => distanceToWall(maze, a);
 
         var visited = {};
-        var queue = new PriorityQueue(bfs);
+        var queue = new PriorityQueue(compare(edge));
         queue.enq({x: start.x, y: start.y, steps: 0});
 
         while(queue.size() > 0) {
